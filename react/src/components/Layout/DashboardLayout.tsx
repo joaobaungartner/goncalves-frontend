@@ -18,6 +18,7 @@ const pageTitles: Record<string, string> = {
   '/dashboard/clientes': 'Clientes',
   '/dashboard/qualidade-satisfacao': 'Qualidade & Satisfação',
   '/dashboard/logistica-custos': 'Logística & Custos',
+  '/importar': 'Importar dados',
   '/pedidos': 'Pedidos',
   '/analytics': 'Analytics',
 };
