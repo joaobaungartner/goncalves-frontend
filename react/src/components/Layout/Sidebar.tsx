@@ -58,8 +58,6 @@ const navItems = [
     section: 'Dados',
     links: [
       { to: '/importar', label: 'Importar dados', icon: '📤' },
-      { to: '/pedidos', label: 'Pedidos', icon: '📋' },
-      { to: '/analytics', label: 'Analytics', icon: '📈' },
     ],
   },
 ] as const;

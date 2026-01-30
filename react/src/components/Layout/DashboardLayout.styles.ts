@@ -29,6 +29,7 @@ export const SidebarHeader = styled.div`
   align-items: center;
   gap: 0.75rem;
   min-height: 72px;
+  flex-wrap: wrap;
 `;
 
 export const Logo = styled.div`
@@ -47,10 +48,12 @@ export const Logo = styled.div`
 
 export const BrandText = styled.span`
   font-weight: 600;
-  font-size: 1.125rem;
+  font-size: 0.9375rem;
   color: #f8fafc;
-  white-space: nowrap;
-  overflow: hidden;
+  line-height: 1.3;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
 `;
 
 export const Nav = styled.nav`
