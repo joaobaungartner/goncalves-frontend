@@ -1,7 +1,7 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { ChartCard } from './ChartCard';
 
-const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#6366f1'];
+const COLORS = ['#f97316', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#6366f1'];
 
 interface PieChartCardProps {
   title: string;

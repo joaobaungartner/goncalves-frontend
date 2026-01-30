@@ -22,7 +22,7 @@ export function BarChartCard({
   data,
   dataKey = 'value',
   formatValue = (n) => n.toLocaleString('pt-BR'),
-  barColor = '#3b82f6',
+  barColor = '#f97316',
 }: BarChartCardProps) {
   if (!data.length) return null;
 
@@ -47,7 +47,7 @@ export function BarChartVerticalCard({
   data,
   dataKey = 'value',
   formatValue = (n) => n.toLocaleString('pt-BR'),
-  barColor = '#3b82f6',
+  barColor = '#f97316',
 }: BarChartCardProps) {
   if (!data.length) return null;
 

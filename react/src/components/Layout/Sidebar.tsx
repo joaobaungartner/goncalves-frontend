@@ -20,23 +20,23 @@ const NavLinkWrapper = styled(NavLink)`
   gap: 0.75rem;
   padding: 0.625rem 0.75rem;
   border-radius: 8px;
-  color: #94a3b8;
+  color: #ffffff;
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
   transition: background 0.2s, color 0.2s;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
   }
 
   &.active {
-    color: #f8fafc;
-    background: rgba(59, 130, 246, 0.15);
+    color: #ffffff;
+    background: rgba(249, 115, 22, 0.18);
 
     &:hover {
-      background: rgba(59, 130, 246, 0.2);
+      background: rgba(249, 115, 22, 0.24);
     }
   }
 `;
@@ -47,7 +47,7 @@ const LogoutButton = styled.button`
   gap: 0.75rem;
   padding: 0.625rem 0.75rem;
   border-radius: 8px;
-  color: #94a3b8;
+  color: #ffffff;
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -59,8 +59,8 @@ const LogoutButton = styled.button`
   text-align: left;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
   }
 `;
 

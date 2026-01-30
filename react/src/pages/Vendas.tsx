@@ -73,7 +73,7 @@ const BarTrack = styled.div`
 const BarFill = styled.div<{ $width: number }>`
   height: 100%;
   width: ${({ $width }) => Math.min(100, $width)}%;
-  background: #3b82f6;
+  background: #f97316;
   border-radius: 6px;
   transition: width 0.3s ease;
 `;

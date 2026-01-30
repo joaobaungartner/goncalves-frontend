@@ -53,7 +53,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #3b82f6;
+    border-color: #f97316;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
   }
 
@@ -67,7 +67,7 @@ const Button = styled.button`
   font-size: 0.9375rem;
   font-weight: 600;
   color: #ffffff;
-  background: #3b82f6;
+  background: #f97316;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -75,7 +75,7 @@ const Button = styled.button`
   margin-top: 0.5rem;
 
   &:hover:not(:disabled) {
-    background: #2563eb;
+    background: #f97316;
   }
 
   &:disabled {

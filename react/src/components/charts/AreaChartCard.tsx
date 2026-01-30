@@ -22,7 +22,7 @@ export function AreaChartCard({
   data,
   dataKey = 'value',
   formatValue = (n) => n.toLocaleString('pt-BR'),
-  color = '#3b82f6',
+  color = '#f97316',
 }: AreaChartCardProps) {
   if (!data.length) return null;
 

@@ -9,7 +9,7 @@ import {
 } from 'recharts';
 import { ChartCard } from './ChartCard';
 
-const COLORS = ['#3b82f6', '#10b981', '#f59e0b'];
+const COLORS = ['#f97316', '#10b981', '#f59e0b'];
 
 interface DataItem {
   name: string;

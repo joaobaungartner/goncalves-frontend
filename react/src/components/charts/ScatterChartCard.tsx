@@ -48,7 +48,7 @@ export function ScatterChartCard({
             formatter={(value: number, name: string) => [name === 'x' ? formatX(value) : formatY(value), name]}
             cursor={{ strokeDasharray: '3 3' }}
           />
-          <Scatter name="Pedidos" data={data} fill="#3b82f6" fillOpacity={0.7} />
+          <Scatter name="Pedidos" data={data} fill="#f97316" fillOpacity={0.7} />
         </ScatterChart>
       </ResponsiveContainer>
     </ChartCard>

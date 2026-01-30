@@ -13,7 +13,7 @@ export const SidebarContainer = styled.aside<{ $collapsed?: boolean }>`
   height: 100vh;
   width: ${({ $collapsed }) => ($collapsed ? '72px' : '260px')};
   min-width: ${({ $collapsed }) => ($collapsed ? '72px' : '260px')};
-  background: linear-gradient(180deg, #1a2332 0%, #0f1620 100%);
+  background: linear-gradient(180deg, #f97316 0%, #c2410c 100%);
   color: #e2e8f0;
   display: flex;
   flex-direction: column;
@@ -36,7 +36,7 @@ export const Logo = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(135deg, #fed7aa 0%, #f97316 50%, #c2410c 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +76,7 @@ export const NavSectionTitle = styled.span`
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.8);
 `;
 
 export const NavLinkStyled = styled.a<{ $active?: boolean }>`
@@ -123,14 +123,14 @@ export const ToggleButton = styled.button`
   border: none;
   border-radius: 8px;
   background: transparent;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 0.8125rem;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
   }
 `;
 
