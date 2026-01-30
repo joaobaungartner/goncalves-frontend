@@ -1,4 +1,5 @@
 import { config } from '../config/config';
+import { getStoredToken } from '../context/AuthContext';
 import type {
   VisaoGeralResponse,
   SerieFaturamentoItem,
@@ -26,12 +27,21 @@ import type {
 
 const BASE = config.apiBaseUrl;
 
+function pathIsAuth(path: string) {
+  return path.startsWith('/auth/');
+}
+
 async function get<T>(path: string, params?: Record<string, string | number>): Promise<T> {
   const url = new URL(path, BASE);
   if (params) {
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, String(v)));
   }
-  const res = await fetch(url.toString());
+  const token = getStoredToken();
+  const headers: HeadersInit = {};
+  if (token && pathIsAuth(path) === false) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  const res = await fetch(url.toString(), { headers });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(text || `HTTP ${res.status}`);

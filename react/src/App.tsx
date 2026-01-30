@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ImportProvider } from './context/ImportContext';
+import { useAuth } from './context/AuthContext';
+import { RequireAuth } from './components/RequireAuth';
 import { DashboardLayout } from './components/Layout/DashboardLayout';
+import { Login } from './pages/Login';
 import { VisaoGeral } from './pages/VisaoGeral';
 import { Financeiro } from './pages/Financeiro';
 import { Vendas } from './pages/Vendas';
@@ -13,26 +16,71 @@ import { Pedidos } from './pages/Pedidos';
 import { Analytics } from './pages/Analytics';
 import { Importar } from './pages/Importar';
 
+/** Em /: se autenticado redireciona para o dashboard; senão mostra Login. */
+function LoginOrRedirect() {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard/visao-geral" replace />;
+  }
+  return <Login />;
+}
+
 function App() {
   return (
     <BrowserRouter>
       <ImportProvider>
-      <Routes>
-        <Route path="/" element={<DashboardLayout />}>
-          <Route index element={<VisaoGeral />} />
-          <Route path="dashboard/financeiro" element={<Financeiro />} />
-          <Route path="dashboard/vendas" element={<Vendas />} />
-          <Route path="dashboard/produtos" element={<Produtos />} />
-          <Route path="dashboard/canais-mercados" element={<CanaisMercados />} />
-          <Route path="dashboard/clientes" element={<Clientes />} />
-          <Route path="dashboard/qualidade-satisfacao" element={<QualidadeSatisfacao />} />
-          <Route path="dashboard/logistica-custos" element={<LogisticaCustos />} />
-          <Route path="importar" element={<Importar />} />
-          <Route path="pedidos" element={<Pedidos />} />
-          <Route path="analytics" element={<Analytics />} />
+        <Routes>
+          <Route path="/" element={<LoginOrRedirect />} />
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth>
+                <DashboardLayout />
+              </RequireAuth>
+            }
+          >
+            <Route index element={<Navigate to="visao-geral" replace />} />
+            <Route path="visao-geral" element={<VisaoGeral />} />
+            <Route path="financeiro" element={<Financeiro />} />
+            <Route path="vendas" element={<Vendas />} />
+            <Route path="produtos" element={<Produtos />} />
+            <Route path="canais-mercados" element={<CanaisMercados />} />
+            <Route path="clientes" element={<Clientes />} />
+            <Route path="qualidade-satisfacao" element={<QualidadeSatisfacao />} />
+            <Route path="logistica-custos" element={<LogisticaCustos />} />
+          </Route>
+          <Route
+            path="/importar"
+            element={
+              <RequireAuth>
+                <DashboardLayout />
+              </RequireAuth>
+            }
+          >
+            <Route index element={<Importar />} />
+          </Route>
+          <Route
+            path="/pedidos"
+            element={
+              <RequireAuth>
+                <DashboardLayout />
+              </RequireAuth>
+            }
+          >
+            <Route index element={<Pedidos />} />
+          </Route>
+          <Route
+            path="/analytics"
+            element={
+              <RequireAuth>
+                <DashboardLayout />
+              </RequireAuth>
+            }
+          >
+            <Route index element={<Analytics />} />
+          </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
+        </Routes>
       </ImportProvider>
     </BrowserRouter>
   );

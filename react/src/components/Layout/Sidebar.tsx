@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import {
   SidebarContainer,
   SidebarHeader,
@@ -40,11 +41,34 @@ const NavLinkWrapper = styled(NavLink)`
   }
 `;
 
+const LogoutButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 8px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+  }
+`;
+
 const navItems = [
   {
     section: 'Dashboard',
     links: [
-      { to: '/', label: 'Visão Geral', icon: '📊' },
+      { to: '/dashboard/visao-geral', label: 'Visão Geral', icon: '📊' },
       { to: '/dashboard/financeiro', label: 'Financeiro', icon: '💰' },
       { to: '/dashboard/vendas', label: 'Vendas', icon: '🛒' },
       { to: '/dashboard/produtos', label: 'Produtos', icon: '📦' },
@@ -68,6 +92,14 @@ interface SidebarProps {
 }
 
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/', { replace: true });
+  };
+
   return (
     <SidebarContainer $collapsed={collapsed}>
       <SidebarHeader>
@@ -83,7 +115,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <NavLinkWrapper
                 key={to}
                 to={to}
-                end={to === '/'}
+                end={to === '/dashboard/visao-geral'}
                 title={collapsed ? label : undefined}
               >
                 <NavIcon>{icon}</NavIcon>
@@ -95,6 +127,12 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
       </Nav>
 
       <SidebarFooter>
+        {!collapsed && (
+          <LogoutButton type="button" onClick={handleLogout} title="Sair">
+            <NavIcon>🚪</NavIcon>
+            <span>Sair</span>
+          </LogoutButton>
+        )}
         <ToggleButton onClick={onToggle} title={collapsed ? 'Expandir menu' : 'Recolher menu'}>
           <span>{collapsed ? '→' : '←'}</span>
           {!collapsed && <span>Recolher</span>}

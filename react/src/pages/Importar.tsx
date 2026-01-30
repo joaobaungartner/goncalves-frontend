@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { config } from '../config/config';
 import { useImportContext } from '../context/ImportContext';
+import { getStoredToken } from '../context/AuthContext';
 
 const PageWrapper = styled.div`
   max-width: 640px;
@@ -273,8 +274,12 @@ export function Importar() {
       const formData = new FormData();
       formData.append('file', file);
 
+      const token = getStoredToken();
+      const headers: HeadersInit = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
       const res = await fetch(`${config.apiBaseUrl}/upload/excel`, {
         method: 'POST',
+        headers,
         body: formData,
       });
 
@@ -309,9 +314,12 @@ export function Importar() {
     setRevertSuccess(false);
 
     try {
+      const token = getStoredToken();
+      const headers: HeadersInit = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
       const res = await fetch(`${config.apiBaseUrl}/upload/revert`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ batch_id: lastBatchId }),
       });
 

@@ -10,7 +10,7 @@ import {
 } from './DashboardLayout.styles';
 
 const pageTitles: Record<string, string> = {
-  '/': 'Visão Geral',
+  '/dashboard/visao-geral': 'Visão Geral',
   '/dashboard/financeiro': 'Financeiro',
   '/dashboard/vendas': 'Vendas',
   '/dashboard/produtos': 'Produtos',
