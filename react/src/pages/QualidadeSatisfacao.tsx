@@ -5,6 +5,7 @@ import type { NpsResponse, NpsSerieItem } from '../types/api';
 import { KpiCard } from '../components/ui/KpiCard';
 import { Loading } from '../components/ui/Loading';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
+import { LineChartCard, BarChartVerticalCard } from '../components/charts';
 
 const PageWrapper = styled.div`
   max-width: 1200px;
@@ -162,6 +163,25 @@ export function QualidadeSatisfacao() {
           )}
         </BarChart>
       </Card>
+
+      <LineChartCard
+        title="Evolução do NPS (linha)"
+        data={serie.map((s) => ({
+          name: `${s.month.toString().padStart(2, '0')}/${s.year}`,
+          nps: s.nps_medio,
+        }))}
+        dataKeys={[{ key: 'nps', name: 'NPS médio' }]}
+        formatValue={(n) => n.toFixed(1)}
+      />
+
+      {npsPorProduto && npsPorProduto.length > 0 && (
+        <BarChartVerticalCard
+          title="NPS por produto (barras verticais)"
+          data={npsPorProduto.map((p) => ({ name: p.produto, value: p.nps_medio }))}
+          formatValue={(n) => n.toFixed(1)}
+          barColor="#6366f1"
+        />
+      )}
     </PageWrapper>
   );
 }

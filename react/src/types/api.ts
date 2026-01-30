@@ -143,6 +143,21 @@ export interface LogisticaResumoResponse {
   num_pedidos: number;
 }
 
+export interface LogisticaEvolucaoItem {
+  year: number;
+  month: number;
+  day?: number;
+  custo_logistico: number;
+  num_pedidos: number;
+}
+
+export interface LogisticaVsVolumeItem {
+  id_pedido: string;
+  volume_kg: number;
+  custo_logistico: number;
+  receita_estimada: number;
+}
+
 export interface PedidosListResponse {
   page: number;
   page_size: number;

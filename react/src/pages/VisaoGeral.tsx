@@ -9,6 +9,7 @@ import type { VisaoGeralResponse, SerieFaturamentoItem, DistribuicaoVendasProdut
 import { KpiCard } from '../components/ui/KpiCard';
 import { Loading } from '../components/ui/Loading';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
+import { LineChartCard, PieChartCard } from '../components/charts';
 
 const PageWrapper = styled.div`
   max-width: 1200px;
@@ -184,6 +185,16 @@ export function VisaoGeral() {
         </BarChart>
       </Card>
 
+      <LineChartCard
+        title="Evolução do faturamento (linha)"
+        data={serie.map((s) => ({
+          name: `${s.month.toString().padStart(2, '0')}/${s.year}`,
+          faturamento: s.faturamento,
+        }))}
+        dataKeys={[{ key: 'faturamento', name: 'Faturamento' }]}
+        formatValue={(n) => formatBRL(n)}
+      />
+
       <SectionTitle>Distribuição de vendas por produto</SectionTitle>
       <Card>
         <BarChart>
@@ -202,6 +213,13 @@ export function VisaoGeral() {
           )}
         </BarChart>
       </Card>
+
+      <PieChartCard
+        title="Participação por produto (donut)"
+        data={distribuicao.map((d) => ({ name: d.produto, value: d.faturamento }))}
+        formatValue={(n) => formatBRL(n)}
+        innerRadius={60}
+      />
     </PageWrapper>
   );
 }

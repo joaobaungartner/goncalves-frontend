@@ -4,6 +4,7 @@ import { fetchClientesPorSegmento } from '../services/api';
 import type { ClientesPorSegmentoItem } from '../types/api';
 import { Loading } from '../components/ui/Loading';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
+import { PieChartCard, BarChartVerticalCard } from '../components/charts';
 
 const PageWrapper = styled.div`
   max-width: 1200px;
@@ -80,6 +81,20 @@ export function Clientes() {
 
   return (
     <PageWrapper>
+      <PieChartCard
+        title="Faturamento por segmento (donut)"
+        data={items.map((i) => ({ name: i.segmento, value: i.faturamento }))}
+        formatValue={(n) => formatBRL(n)}
+        innerRadius={60}
+      />
+
+      <BarChartVerticalCard
+        title="Ticket médio por segmento (barras verticais)"
+        data={items.map((i) => ({ name: i.segmento, value: i.ticket_medio }))}
+        formatValue={(n) => formatBRL(n)}
+        barColor="#f59e0b"
+      />
+
       <SectionTitle>Por segmento de cliente</SectionTitle>
       <Card>
         <Table>

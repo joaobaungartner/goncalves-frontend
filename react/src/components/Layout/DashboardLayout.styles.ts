@@ -7,6 +7,10 @@ export const LayoutWrapper = styled.div`
 `;
 
 export const SidebarContainer = styled.aside<{ $collapsed?: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
   width: ${({ $collapsed }) => ($collapsed ? '72px' : '260px')};
   min-width: ${({ $collapsed }) => ($collapsed ? '72px' : '260px')};
   background: linear-gradient(180deg, #1a2332 0%, #0f1620 100%);
@@ -127,12 +131,14 @@ export const ToggleButton = styled.button`
   }
 `;
 
-export const MainContent = styled.main`
+export const MainContent = styled.main<{ $sidebarCollapsed?: boolean }>`
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
   overflow: auto;
+  margin-left: ${({ $sidebarCollapsed }) => ($sidebarCollapsed ? '72px' : '260px')};
+  transition: margin-left 0.25s ease;
 `;
 
 export const TopBar = styled.header`

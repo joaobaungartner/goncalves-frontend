@@ -32,7 +32,7 @@ export function DashboardLayout() {
   return (
     <LayoutWrapper>
       <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed((c) => !c)} />
-      <MainContent>
+      <MainContent $sidebarCollapsed={sidebarCollapsed}>
         <TopBar>
           <PageTitle>{title}</PageTitle>
         </TopBar>

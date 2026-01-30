@@ -7,6 +7,7 @@ import {
 import type { ComparativoPolpaManteigaItem, EvolucaoMensalProdutoItem } from '../types/api';
 import { Loading } from '../components/ui/Loading';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
+import { BarChartVerticalCard, LineChartCard } from '../components/charts';
 
 const PageWrapper = styled.div`
   max-width: 1200px;
@@ -84,8 +85,36 @@ export function Produtos() {
   if (loading) return <Loading />;
   if (error) return <ErrorMessage message={error} />;
 
+  const comparativoChartData = comparativo.map((c) => ({
+    name: c.produto,
+    value: c.faturamento,
+  }));
+  const productNames = [...new Set(evolucao.map((e) => e.produto))];
+  const evolucaoByMonth = evolucao.reduce(
+    (acc, e) => {
+      const key = `${e.month.toString().padStart(2, '0')}/${e.year}`;
+      if (!acc[key]) {
+        acc[key] = { name: key };
+        productNames.forEach((p) => ((acc[key] as Record<string, number>)[p] = 0));
+      }
+      (acc[key] as Record<string, number>)[e.produto] = e.faturamento;
+      return acc;
+    },
+    {} as Record<string, { name: string; [produto: string]: number }>
+  );
+  const evolucaoLineData = Object.values(evolucaoByMonth).sort((a, b) =>
+    (a.name as string).localeCompare(b.name as string)
+  );
+
   return (
     <PageWrapper>
+      <BarChartVerticalCard
+        title="Comparativo faturamento por produto (barras verticais)"
+        data={comparativoChartData}
+        formatValue={(n) => formatBRL(n)}
+        barColor="#10b981"
+      />
+
       <SectionTitle>Comparativo Polpa vs Manteiga</SectionTitle>
       <Card>
         <Table>
@@ -153,6 +182,15 @@ export function Produtos() {
           </tbody>
         </Table>
       </Card>
+
+      {evolucaoLineData.length > 0 && productNames.length > 0 && (
+        <LineChartCard
+          title="Evolução do faturamento por produto (linha)"
+          data={evolucaoLineData}
+          dataKeys={productNames.map((name) => ({ key: name, name }))}
+          formatValue={(n) => formatBRL(n)}
+        />
+      )}
     </PageWrapper>
   );
 }

@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { fetchLogisticaResumo } from '../services/api';
-import type { LogisticaResumoResponse } from '../types/api';
+import {
+  fetchLogisticaResumo,
+  fetchLogisticaEvolucao,
+  fetchLogisticaVsVolume,
+} from '../services/api';
+import type {
+  LogisticaResumoResponse,
+  LogisticaEvolucaoItem,
+  LogisticaVsVolumeItem,
+} from '../types/api';
 import { KpiCard } from '../components/ui/KpiCard';
 import { Loading } from '../components/ui/Loading';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
+import { AreaChartCard, ScatterChartCard } from '../components/charts';
 
 const PageWrapper = styled.div`
   max-width: 1200px;
@@ -23,8 +32,14 @@ const KpiGrid = styled.div`
   gap: 1rem;
 `;
 
+function formatBRL(n: number) {
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(n);
+}
+
 export function LogisticaCustos() {
   const [resumo, setResumo] = useState<LogisticaResumoResponse | null>(null);
+  const [evolucao, setEvolucao] = useState<LogisticaEvolucaoItem[]>([]);
+  const [vsVolume, setVsVolume] = useState<LogisticaVsVolumeItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,9 +48,16 @@ export function LogisticaCustos() {
     setLoading(true);
     setError(null);
 
-    fetchLogisticaResumo()
-      .then((data) => {
-        if (!cancelled) setResumo(data);
+    Promise.all([
+      fetchLogisticaResumo(),
+      fetchLogisticaEvolucao({ granularity: 'month', meses: 12 }),
+      fetchLogisticaVsVolume({ limit: 150 }),
+    ])
+      .then(([resumoData, evolRes, vsRes]) => {
+        if (cancelled) return;
+        setResumo(resumoData);
+        setEvolucao(evolRes.items ?? []);
+        setVsVolume(vsRes.items ?? []);
       })
       .catch((err) => {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Erro ao carregar dados');
@@ -69,6 +91,29 @@ export function LogisticaCustos() {
         />
         <KpiCard label="Nº de pedidos" value={resumo.num_pedidos} format="integer" />
       </KpiGrid>
+
+      <AreaChartCard
+        title="Evolução do custo logístico (área)"
+        data={evolucao.map((e) => ({
+          name: `${e.month.toString().padStart(2, '0')}/${e.year}`,
+          value: e.custo_logistico,
+        }))}
+        formatValue={(n) => formatBRL(n)}
+        color="#dc2626"
+      />
+
+      <ScatterChartCard
+        title="Custo logístico × Volume (dispersão)"
+        data={vsVolume.map((p) => ({
+          x: p.volume_kg,
+          y: p.custo_logistico,
+          name: p.id_pedido,
+        }))}
+        xName="Volume (kg)"
+        yName="Custo (R$)"
+        formatX={(n) => n.toLocaleString('pt-BR')}
+        formatY={(n) => formatBRL(n)}
+      />
     </PageWrapper>
   );
 }

@@ -4,6 +4,7 @@ import { fetchPerformanceCanal, fetchPerformanceRegiao } from '../services/api';
 import type { PerformanceCanalItem, PerformanceRegiaoItem } from '../types/api';
 import { Loading } from '../components/ui/Loading';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
+import { PieChartCard } from '../components/charts';
 
 const PageWrapper = styled.div`
   max-width: 1200px;
@@ -83,6 +84,20 @@ export function CanaisMercados() {
 
   return (
     <PageWrapper>
+      <PieChartCard
+        title="Faturamento por canal (donut)"
+        data={canais.map((c) => ({ name: c.canal, value: c.faturamento }))}
+        formatValue={(n) => formatBRL(n)}
+        innerRadius={60}
+      />
+
+      <PieChartCard
+        title="Faturamento por região (pizza)"
+        data={regioes.map((r) => ({ name: r.regiao, value: r.faturamento }))}
+        formatValue={(n) => formatBRL(n)}
+        innerRadius={0}
+      />
+
       <SectionTitle>Performance por canal</SectionTitle>
       <Card>
         <Table>

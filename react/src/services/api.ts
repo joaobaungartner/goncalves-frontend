@@ -17,6 +17,8 @@ import type {
   NpsResponse,
   NpsSerieItem,
   LogisticaResumoResponse,
+  LogisticaEvolucaoItem,
+  LogisticaVsVolumeItem,
   PedidosListResponse,
   PedidosKpisResponse,
   AnalyticsMetaResponse,
@@ -266,6 +268,36 @@ export function fetchLogisticaResumo(params?: { date_from?: string; date_to?: st
   if (params?.date_to) search.set('date_to', params.date_to);
   const q = search.toString();
   return get<LogisticaResumoResponse>(`/dashboard/logistica-custos/resumo${q ? `?${q}` : ''}`);
+}
+
+/** GET /dashboard/logistica-custos/evolucao-custo */
+export function fetchLogisticaEvolucao(params?: {
+  granularity?: 'day' | 'month';
+  meses?: number;
+}) {
+  const search = new URLSearchParams();
+  if (params?.granularity) search.set('granularity', params.granularity);
+  if (params?.meses != null) search.set('meses', String(params.meses));
+  const q = search.toString();
+  return get<{ granularity: string; items: LogisticaEvolucaoItem[] }>(
+    `/dashboard/logistica-custos/evolucao-custo${q ? `?${q}` : ''}`
+  );
+}
+
+/** GET /dashboard/logistica-custos/logistica-vs-volume */
+export function fetchLogisticaVsVolume(params?: {
+  date_from?: string;
+  date_to?: string;
+  limit?: number;
+}) {
+  const search = new URLSearchParams();
+  if (params?.date_from) search.set('date_from', params.date_from);
+  if (params?.date_to) search.set('date_to', params.date_to);
+  if (params?.limit != null) search.set('limit', String(params.limit));
+  const q = search.toString();
+  return get<{ items: LogisticaVsVolumeItem[] }>(
+    `/dashboard/logistica-custos/logistica-vs-volume${q ? `?${q}` : ''}`
+  );
 }
 
 /** GET /pedidos */

@@ -15,6 +15,7 @@ import type {
 import { KpiCard } from '../components/ui/KpiCard';
 import { Loading } from '../components/ui/Loading';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
+import { PieChartCard, BarChartVerticalCard } from '../components/charts';
 
 const PageWrapper = styled.div`
   max-width: 1200px;
@@ -212,6 +213,16 @@ export function Vendas() {
               </tbody>
             </Table>
           </Card>
+
+          <PieChartCard
+            title="Participação por canal (donut)"
+            data={kpis.por_canal.map((c) => ({
+              name: c.canal,
+              value: c.volume_kg,
+            }))}
+            formatValue={(n) => n.toLocaleString('pt-BR')}
+            innerRadius={60}
+          />
         </>
       )}
 
@@ -239,6 +250,13 @@ export function Vendas() {
           )}
         </BarChart>
       </Card>
+
+      <BarChartVerticalCard
+        title="Ranking por segmento (barras verticais)"
+        data={ranking.map((r) => ({ name: r.segmento, value: r.faturamento }))}
+        formatValue={(n) => formatBRL(n)}
+        barColor="#8b5cf6"
+      />
 
       <SectionTitle>Mix de produtos</SectionTitle>
       <Card>

@@ -8,6 +8,7 @@ import {
 import type { FaturamentoPorItem, EvolucaoFaturamentoItem } from '../types/api';
 import { Loading } from '../components/ui/Loading';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
+import { PieChartCard, AreaChartCard } from '../components/charts';
 
 const PageWrapper = styled.div`
   max-width: 1200px;
@@ -177,6 +178,30 @@ export function Financeiro() {
           )}
         </BarChart>
       </Card>
+
+      <PieChartCard
+        title="Faturamento por produto (pizza)"
+        data={porProduto.map((p) => ({ name: p.produto ?? '—', value: p.faturamento }))}
+        formatValue={(n) => formatBRL(n)}
+        innerRadius={0}
+      />
+
+      <PieChartCard
+        title="Faturamento por canal (donut)"
+        data={porCanal.map((c) => ({ name: c.canal ?? '—', value: c.faturamento }))}
+        formatValue={(n) => formatBRL(n)}
+        innerRadius={60}
+      />
+
+      <AreaChartCard
+        title="Evolução do faturamento (área)"
+        data={evolucao.map((e) => ({
+          name: `${e.month.toString().padStart(2, '0')}/${e.year}`,
+          value: e.faturamento,
+        }))}
+        formatValue={(n) => formatBRL(n)}
+        color="#10b981"
+      />
     </PageWrapper>
   );
 }
